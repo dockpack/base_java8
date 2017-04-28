@@ -32,13 +32,12 @@
     java8_top: '/usr/java/jvm'
   when: ansible_os_family == 'RedHat'
   tags:
-    - oracle_java8
     - java8
+    - java8_alternatives
     - java8_install
     - java8_profile
     - java8_test
     - oracle_java8
-    - java8_alternatives
     - test
 
 - name: 'make sure /usr/lib/jvm exists'
@@ -56,11 +55,20 @@
     - java8
 
 - name: 'this is JAVA_HOME'
+  set_fact:
+    java8_home: "{{ java8_top }}/{{ java8_name }}"
+  tags:
+    - java8_test
+    - oracle_java8
+    - test
+
+- name: 'this is JAVA_HOME'
   debug:
     msg: "{{ java8_top }}/{{ java8_name }}"
   tags:
-    - oracle_java8
     - java8
+    - java8_test
+    - oracle_java8
     - test
 
 - name: 'fix JAVA_HOME'
@@ -108,4 +116,3 @@
     - oracle_java8
     - java8
     - test
-    - redis_test
