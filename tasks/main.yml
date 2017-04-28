@@ -25,6 +25,9 @@
     - java8_test
     - java8_alternatives
     - test
+    - ant_test
+    - maven_test
+    - gradle_test
 
 - name: 'set java_top on RedHat'
   become: yes
@@ -39,8 +42,11 @@
     - java8_test
     - oracle_java8
     - test
+    - ant_test
+    - maven_test
+    - gradle_test
 
-- name: 'make sure /usr/lib/jvm exists'
+- name: 'make sure java_top exists'
   become: yes
   file: path={{ java8_top }} state=directory owner=root mode=0755
   tags:
@@ -61,6 +67,9 @@
     - java8_test
     - oracle_java8
     - test
+    - ant_test
+    - maven_test
+    - gradle_test
 
 - name: 'this is JAVA_HOME'
   debug:
@@ -70,6 +79,9 @@
     - java8_test
     - oracle_java8
     - test
+    - ant_test
+    - maven_test
+    - gradle_test
 
 - name: 'fix JAVA_HOME'
   become: yes
