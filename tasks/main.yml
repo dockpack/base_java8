@@ -12,7 +12,7 @@
     - oracle_java8
     - java8
 
-- name: 'set JAVA_HOME on Debian'
+- name: 'set java_top on Debian'
   become: yes
   set_fact:
     java8_top: '/usr/lib/jvm/'
@@ -22,9 +22,11 @@
     - java8
     - java8_install
     - java8_profile
+    - java8_test
     - java8_alternatives
+    - test
 
-- name: 'set JAVA_HOME on RedHat'
+- name: 'set java_top on RedHat'
   become: yes
   set_fact:
     java8_top: '/usr/java/jvm'
@@ -34,8 +36,10 @@
     - java8
     - java8_install
     - java8_profile
+    - java8_test
     - oracle_java8
     - java8_alternatives
+    - test
 
 - name: 'make sure /usr/lib/jvm exists'
   become: yes
@@ -44,13 +48,20 @@
     - oracle_java8
     - java8
 
-
 - name: 'unarchive java8 Java 8'
   unarchive: src=/tmp/{{ java8_name }}-linux-x64.tar.gz copy=no dest={{ java8_top }}
   tags:
     - oracle_java8
     - java8_install
     - java8
+
+- name: 'this is JAVA_HOME'
+  debug:
+    msg: "{{ java8_top }}/{{ java8_name }}"
+  tags:
+    - oracle_java8
+    - java8
+    - test
 
 - name: 'fix JAVA_HOME'
   become: yes
@@ -91,3 +102,10 @@
     - oracle_java8
     - java8_alternatives
     - java8_profile
+
+- include: tests.yml
+  tags:
+    - oracle_java8
+    - java8
+    - test
+    - redis_test

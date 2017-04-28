@@ -1,0 +1,106 @@
+- name: setup
+  become: no
+  file:
+    state: absent
+    path: "{{ item }}"
+  with_items:
+    - './HelloJava.java'
+    - './HelloJava.class'
+  tags:
+    - oracle_java8
+    - java8
+    - java8_test
+    - test
+
+- name: smoke test java runtime
+  become: no
+  command: "{{ java8_top }}/{{ java8_name }}/bin/java -version"
+  changed_when: no
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  register: java
+  tags:
+    - oracle_java8
+    - java8
+    - java8_test
+    - test
+
+- name: verify java version
+  become: no
+  debug: msg="{{ java8_name }} ?? {{ java.stderr }}"
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  tags:
+    - oracle_java8
+    - java8
+    - java8_test
+    - test
+
+- name: copy java source for tests
+  become: no
+  copy:
+    src: HelloJava.java
+    dest: "/home/{{ ansible_user }}"
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  tags:
+    - oracle_java8
+    - java8
+    - java8_test
+    - test
+
+- name: functional test Java compiler
+  become: no
+  command: "{{ java8_top }}/{{ java8_name }}/bin/javac HelloJava.java"
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  tags:
+    - oracle_java8
+    - java8
+    - java8_test
+    - test
+
+- name: functional test Java runtime
+  become: no
+  command: "java HelloJava"
+  changed_when: no
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  register: java8_class
+  tags:
+    - oracle_java8
+    - java8
+    - java8_test
+    - test
+
+- name: verify bytecode version
+  become: no
+  command: "file HelloJava.class HelloJava.java"
+  no_log: yes
+  changed_when: no
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  register: java8_class
+  tags:
+    - oracle_java8
+    - java8
+    - java8_test
+    - test
+
+- name: display bytecode version
+  become: no
+  debug: msg="{{ java8_class.stdout_lines }}"
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  tags:
+    - oracle_java8
+    - java8
+    - java8_test
+    - test
+
+- name: teardown
+  become: no
+  file:
+    state: absent
+    path: "{{ item }}"
+  with_items:
+    - './HelloJava.java'
+    - './HelloJava.class'
+  tags:
+    - oracle_java8
+    - java8
+    - java8_test
+    - test
