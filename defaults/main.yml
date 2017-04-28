@@ -1,0 +1,12 @@
+---
+#
+java8_maj: 8
+java8_min: 0
+java8_ser: 111
+# below is to construct the url and filename
+java8_ver: "{{ java8_maj }}u{{ java8_ser }}"
+java8_patch: b14
+java8_uri : "{{ java8_ver }}-{{ java8_patch }}"
+java8_name: jdk1.{{ java8_maj }}.{{ java8_min }}_111
+java8_codebase: 'http://download.oracle.com/otn-pub/java/jdk'
+java8_url: "{{ java8_codebase }}/{{ java8_uri }}/jdk-{{ java8_ver }}-linux-x64.tar.gz"
