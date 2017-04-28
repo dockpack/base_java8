@@ -66,8 +66,8 @@
 - name: 'fix JAVA_HOME'
   become: yes
   template:
-    src: jre.sh
-    dest: /etc/profile.d/jre.sh
+    src: java.sh
+    dest: /etc/profile.d/java.sh
   tags:
     - oracle_java8
     - java8
