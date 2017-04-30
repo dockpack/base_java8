@@ -97,7 +97,7 @@
   alternatives:
     name: "{{ item }}"
     link: "/usr/bin/{{ item }}"
-    path: "{{ java8_top }}/bin/{{ item }}"
+    path: "{{ java8_top }}/{{ java8_name }}/bin/{{ item }}"
   with_items:
    - java
    - jarsigner
