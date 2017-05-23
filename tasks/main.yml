@@ -1,47 +1,42 @@
 ---
-
 # oracle_java8
 
-- name: 'download Oracle Java 8 with a cookie'
-  become: yes
-  get_url:
-    url: "{{ java8_url }}"
-    headers: "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie"
-    dest: /tmp/{{ java8_name }}-linux-x64.tar.gz
-  register: download
+- name: what java8_rpm
+  debug:
+    msg: "{{ java8_rpms }}"
+
+- name: Update apt cache.
+  when: ansible_os_family == 'Debian'
+  apt:
+    update_cache: yes
+    cache_valid_time: 86400
   tags:
-    - oracle_java8
     - java8
+    - java8_install
+
+- name: Ensure Java is installed.
+  when: ansible_os_family == 'Debian'
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ java8_apts }}"
+
+- name: Ensure Java is installed.
+  when: ansible_os_family == 'RedHat'
+  yum: "name={{ item }} state=installed"
+  retries: 5
+  with_items: "{{ java8_rpms }}"
 
 - name: 'set java_top on Debian'
   become: yes
   set_fact:
-    java8_top: '/usr/lib/jvm/'
-  when: ansible_os_family == 'Debian'
+    java8_top: '/usr/lib/jvm'
   tags:
-    - oracle_java8
     - java8
     - java8_install
     - java8_profile
     - java8_test
     - java8_alternatives
-    - test
-    - ant_test
-    - maven_test
-    - gradle_test
-
-- name: 'set java_top on RedHat'
-  become: yes
-  set_fact:
-    java8_top: '/usr/java/jvm'
-  when: ansible_os_family == 'RedHat'
-  tags:
-    - java8
-    - java8_alternatives
-    - java8_install
-    - java8_profile
-    - java8_test
-    - oracle_java8
     - test
     - ant_test
     - maven_test
@@ -51,22 +46,13 @@
   become: yes
   file: path={{ java8_top }} state=directory owner=root mode=0755
   tags:
-    - oracle_java8
-    - java8
-
-- name: 'unarchive java8 Java 8'
-  unarchive: src=/tmp/{{ java8_name }}-linux-x64.tar.gz copy=no dest={{ java8_top }}
-  tags:
-    - oracle_java8
-    - java8_install
     - java8
 
 - name: 'this is JAVA_HOME'
   set_fact:
-    java8_home: "{{ java8_top }}/{{ java8_name }}"
-  tags:
+    java8_home: "{{ java8_top }}/{{ java_name }}"
+    tags:
     - java8_test
-    - oracle_java8
     - test
     - ant_test
     - maven_test
@@ -74,11 +60,10 @@
 
 - name: 'this is JAVA_HOME'
   debug:
-    msg: "{{ java8_top }}/{{ java8_name }}"
+    msg: "{{ java8_home }}"
   tags:
     - java8
     - java8_test
-    - oracle_java8
     - test
     - ant_test
     - maven_test
@@ -90,42 +75,5 @@
     src: java.sh
     dest: /etc/profile.d/java.sh
   tags:
-    - oracle_java8
     - java8
     - java8_profile
-
-- name: 'populated alternatives'
-  alternatives:
-    name: "{{ item }}"
-    link: "/usr/bin/{{ item }}"
-    path: "{{ java8_top }}/{{ java8_name }}/bin/{{ item }}"
-  with_items:
-   - java
-   - jarsigner
-   - javaws
-   - javac
-   - jar
-   - jconsole
-   - jstack
-   - jstat
-   - orbd
-   - pack200
-   - policytool
-   - rmid
-   - rmiregistry
-   - servertool
-   - tnameserv
-   - unpack200
-   - wsgen
-   - wsimport
-   - xjc
-  tags:
-    - oracle_java8
-    - java8_alternatives
-    - java8_profile
-
-- include: tests.yml
-  tags:
-    - oracle_java8
-    - java8
-    - test
