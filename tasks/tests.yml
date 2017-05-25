@@ -16,7 +16,7 @@
 
 - name: smoke test java runtime
   become: no
-  command: "{{ java8_top }}/{{ java8_name }}/bin/java -version"
+  command: "{{ java8_top }}/java/bin/java -version"
   changed_when: no
   ignore_errors: "{{ continue_on_error | default(True) }}"
   register: java
@@ -28,7 +28,7 @@
 
 - name: verify java version
   become: no
-  debug: msg="{{ java8_name }} ?? {{ java.stderr }}"
+  debug: msg="java ?? {{ java.stderr }}"
   ignore_errors: "{{ continue_on_error | default(True) }}"
   tags:
     - oracle_java8
@@ -50,7 +50,7 @@
 
 - name: functional test Java compiler
   become: no
-  command: "{{ java8_top }}/{{ java8_name }}/bin/javac Whoami.java"
+  command: "{{ java8_top }}/java/bin/javac Whoami.java"
   ignore_errors: "{{ continue_on_error | default(True) }}"
   tags:
     - oracle_java8
@@ -72,7 +72,7 @@
 
 - name: verify bytecode version
   become: no
-  command: "file HelloJava.class HelloJava.java"
+  command: "file Whoami.class Whoami.java"
   no_log: yes
   changed_when: no
   ignore_errors: "{{ continue_on_error | default(True) }}"
@@ -99,8 +99,8 @@
     state: absent
     path: "{{ item }}"
   with_items:
-    - './HelloJava.java'
-    - './HelloJava.class'
+    - './Whoami.java'
+    - './Whoami.class'
   tags:
     - oracle_java8
     - java8

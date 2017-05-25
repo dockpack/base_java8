@@ -50,24 +50,24 @@
 
 - name: 'this is JAVA_HOME'
   set_fact:
-    java8_home: "{{ java8_top }}/{{ java_name }}"
-    tags:
-    - java8_test
-    - test
-    - ant_test
-    - maven_test
-    - gradle_test
+    java8_home: "{{ java8_top }}/java"
+  tags:
+  - java8
+  - java8_test
+  - test
+  - ant_test
+  - maven_test
+  - gradle_test
 
-- name: 'this is JAVA_HOME'
-  debug:
-    msg: "{{ java8_home }}"
+- name: Ensure facts can be stored locally
+  file:
+    path: /etc/ansible/facts.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
   tags:
     - java8
-    - java8_test
-    - test
-    - ant_test
-    - maven_test
-    - gradle_test
 
 - name: 'install java8 facts'
   template:
@@ -87,3 +87,8 @@
   tags:
     - java8
     - java8_profile
+
+- include: tests.yml
+  tags:
+    - java8
+    - test
