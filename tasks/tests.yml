@@ -6,8 +6,8 @@
     state: absent
     path: "{{ item }}"
   with_items:
-    - './HelloJava.java'
-    - './HelloJava.class'
+    - './Whoami.java'
+    - './Whoami.class'
   tags:
     - oracle_java8
     - java8
@@ -39,7 +39,7 @@
 - name: copy java source for tests
   become: no
   copy:
-    src: HelloJava.java
+    src: Whoami.java
     dest: "/home/{{ ansible_user }}"
   ignore_errors: "{{ continue_on_error | default(True) }}"
   tags:
@@ -50,7 +50,7 @@
 
 - name: functional test Java compiler
   become: no
-  command: "{{ java8_top }}/{{ java8_name }}/bin/javac HelloJava.java"
+  command: "{{ java8_top }}/{{ java8_name }}/bin/javac Whoami.java"
   ignore_errors: "{{ continue_on_error | default(True) }}"
   tags:
     - oracle_java8
@@ -60,7 +60,7 @@
 
 - name: functional test Java runtime
   become: no
-  command: "java HelloJava"
+  command: "java Whoami"
   changed_when: no
   ignore_errors: "{{ continue_on_error | default(True) }}"
   register: java8_class

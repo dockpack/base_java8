@@ -69,6 +69,16 @@
     - maven_test
     - gradle_test
 
+- name: 'install java8 facts'
+  template:
+    src: java8.fact
+    dest: /etc/ansible/facts.d/java8.fact
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - java8
+
 - name: 'fix JAVA_HOME'
   become: yes
   template:
