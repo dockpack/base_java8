@@ -40,7 +40,7 @@
   become: no
   copy:
     src: Whoami.java
-    dest: "/home/{{ ansible_user }}"
+    dest: "~"
   ignore_errors: "{{ continue_on_error | default(True) }}"
   tags:
     - oracle_java8
