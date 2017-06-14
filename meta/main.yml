@@ -10,16 +10,16 @@ galaxy_info:
   min_ansible_version: 1.9.0
 
   platforms:
-  - name: EL
-    versions:
-    - 6
-    - 7
-  - name: Ubuntu
-    versions:
-    - trusty
-  - name: Debian
-    versions:
-    - jessie
+    - name: EL
+      versions:
+        - 6
+        - 7
+    - name: Ubuntu
+      versions:
+        - trusty
+    - name: Debian
+      versions:
+        - jessie
   galaxy_tags:
     - system
     - development

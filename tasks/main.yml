@@ -52,12 +52,12 @@
   set_fact:
     java8_home: "{{ java8_top }}/java"
   tags:
-  - java8
-  - java8_test
-  - test
-  - ant_test
-  - maven_test
-  - gradle_test
+    - java8
+    - java8_test
+    - test
+    - ant_test
+    - maven_test
+    - gradle_test
 
 - name: Ensure facts can be stored locally
   file:
