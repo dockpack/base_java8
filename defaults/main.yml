@@ -4,5 +4,6 @@ java8_rpms:
   - 'java-1.8.0-openjdk-headless.x86_64'
   - 'java-1.8.0-openjdk-devel.x86_64'
 
-java8_apts:
+java8_apt:
   - 'openjdk-8-jdk'
+

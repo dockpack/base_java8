@@ -9,19 +9,17 @@
     - './Whoami.java'
     - './Whoami.class'
   tags:
-    - oracle_java8
     - java8
     - java8_test
     - test
 
 - name: smoke test java runtime
   become: no
-  command: "{{ java8_top }}/java/bin/java -version"
+  command: "java -version"
   changed_when: no
   ignore_errors: "{{ continue_on_error | default(True) }}"
   register: java
   tags:
-    - oracle_java8
     - java8
     - java8_test
     - test
@@ -31,7 +29,6 @@
   debug: msg="java ?? {{ java.stderr }}"
   ignore_errors: "{{ continue_on_error | default(True) }}"
   tags:
-    - oracle_java8
     - java8
     - java8_test
     - test
@@ -40,48 +37,44 @@
   become: no
   copy:
     src: Whoami.java
-    dest: "~"
+    dest: /tmp
+  changed_when: no  # test only
   ignore_errors: "{{ continue_on_error | default(True) }}"
   tags:
-    - oracle_java8
     - java8
     - java8_test
     - test
 
 - name: functional test Java compiler
   become: no
-  command: "{{ java8_top }}/java/bin/javac Whoami.java"
+  command: "javac /tmp/Whoami.java"
   register: java_compile
-  changed_when: "java_compile.rc == 0"
+  changed_when: no  # test only
   failed_when: "java_compile.rc != 0"
   ignore_errors: "{{ continue_on_error | default(True) }}"
   tags:
-    - oracle_java8
     - java8
     - java8_test
     - test
 
 - name: functional test Java runtime
   become: no
-  command: "java Whoami"
+  command: "java -cp /tmp Whoami"
   changed_when: no
   ignore_errors: "{{ continue_on_error | default(True) }}"
   register: java8_class
   tags:
-    - oracle_java8
     - java8
     - java8_test
     - test
 
 - name: verify bytecode version
   become: no
-  command: "file Whoami.class Whoami.java"
-  no_log: yes
+  command: "file /tmp/Whoami.class"
   changed_when: no
   ignore_errors: "{{ continue_on_error | default(True) }}"
   register: java8_class
   tags:
-    - oracle_java8
     - java8
     - java8_test
     - test
@@ -91,7 +84,6 @@
   debug: msg="{{ java8_class.stdout_lines }}"
   ignore_errors: "{{ continue_on_error | default(True) }}"
   tags:
-    - oracle_java8
     - java8
     - java8_test
     - test
@@ -102,10 +94,10 @@
     state: absent
     path: "{{ item }}"
   with_items:
-    - './Whoami.java'
-    - './Whoami.class'
+    - '/tmp/Whoami.java'
+    - '/tmp/Whoami.class'
+  changed_when: no  # test only
   tags:
-    - oracle_java8
     - java8
     - java8_test
     - test
