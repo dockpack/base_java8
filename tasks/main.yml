@@ -88,7 +88,7 @@
 - name: 'this is JAVA_HOME'
   when: ansible_os_family == 'Debian'
   set_fact:
-    java8_home: "{{ java8_top }}/{{ java8_apt }}-amd64"
+    java8_home: "{{ java8_top }}/{{ ubuntu_dir }}"
   tags:
     - java8
     - java8_test
