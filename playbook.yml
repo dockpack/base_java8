@@ -1,4 +1,5 @@
 ---
+# Standards: 0.2
 - hosts: all
   roles:
     - {role: base_java8, continue_on_error: False}

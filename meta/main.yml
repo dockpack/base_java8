@@ -1,9 +1,9 @@
 ---
-
+# Standards: 0.2
 galaxy_info:
-  author: bbaassssiiee
+  author: Bas Meijer
   description: Java - just another vage acronym.
-  company:
+  company: bbaassssiiee
 
   license: MIT
 

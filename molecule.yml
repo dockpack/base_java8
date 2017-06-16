@@ -1,4 +1,5 @@
 ---
+# Standards: 0.2
 dependency:
   name: galaxy
 driver:

@@ -26,7 +26,8 @@
 
 - name: verify java version
   become: no
-  debug: msg="java ?? {{ java.stderr }}"
+  debug:
+    msg: "java ?? {{ java.stderr }}"
   ignore_errors: "{{ continue_on_error | default(True) }}"
   tags:
     - java8
@@ -81,7 +82,8 @@
 
 - name: display bytecode version
   become: no
-  debug: msg="{{ java8_class.stdout_lines }}"
+  debug:
+    msg: "{{ java8_class.stdout_lines }}"
   ignore_errors: "{{ continue_on_error | default(True) }}"
   tags:
     - java8

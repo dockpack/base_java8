@@ -69,7 +69,11 @@
 
 - name: 'make sure java_top exists'
   become: yes
-  file: path={{ java8_top }} state=directory owner=root mode=0755
+  file:
+    path: "{{ java8_top }}"
+    state: directory
+    owner: root
+    mode: 0755
   tags:
     - java8
 
