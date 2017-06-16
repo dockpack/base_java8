@@ -6,4 +6,3 @@ java8_rpms:
 
 java8_apt:
   - 'openjdk-8-jdk'
-
