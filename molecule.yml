@@ -2,6 +2,7 @@
 # Standards: 0.2
 dependency:
   name: galaxy
+  requirements_file: requirements.yml
 driver:
   name: docker
 docker:

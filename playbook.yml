@@ -2,4 +2,9 @@
 # Standards: 0.2
 - hosts: all
   roles:
+    - {role: goss }
     - {role: base_java8, continue_on_error: False}
+
+  post_tasks:
+    - include:
+        tests/test_java8.yml

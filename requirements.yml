@@ -1,0 +1,4 @@
+---
+
+- src: https://github.com/dockpack/ansible-role-goss.git
+  name: goss
