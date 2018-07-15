@@ -3,7 +3,7 @@
 - hosts: all
   roles:
     - {role: dockpack.base_goss}
-    - {role: dockpack.base_java8, continue_on_error: False}
+    - {role: base_java8, continue_on_error: False}
 
   post_tasks:
     - include_tasks:
