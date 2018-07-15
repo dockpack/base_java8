@@ -6,5 +6,5 @@
     - {role: base_java8, continue_on_error: False}
 
   post_tasks:
-    - include:
+    - include_tasks:
         tests/test_java8.yml
