@@ -1,0 +1,3 @@
+---
+- src: https://github.com/dockpack/base_common.git
+  name: dockpack.base_common
