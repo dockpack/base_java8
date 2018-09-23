@@ -1,4 +1,4 @@
-![Build Status](https://api.travis-ci.org/dockpack/base_java8.svg)
+[![Galaxy](https://img.shields.io/badge/galaxy-dockpack.base_java8.svg?style=flat)](https://galaxy.ansible.com/dockpack/base_java8)![Build Status](https://api.travis-ci.org/dockpack/base_java8.svg)
 
 base_java8
 =========
