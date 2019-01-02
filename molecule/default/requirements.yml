@@ -1,0 +1,6 @@
+---
+- src: https://github.com/dockpack/base_common.git
+  name: dockpack.base_common
+
+- src: https://github.com/dockpack/base_goss.git
+  name: dockpack.base_goss

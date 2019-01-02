@@ -1,6 +1,21 @@
 ---
 
-- name: what java8_rpms
+- name: Set java_top
+  become: yes
+  set_fact:
+    java8_top: '/usr/lib/jvm'
+  tags:
+    - java8
+    - java8_install
+    - java8_profile
+    - java8_test
+    - java8_alternatives
+    - test
+    - ant_test
+    - maven_test
+    - gradle_test
+
+- name: What java8_rpms
   when: ansible_os_family == 'RedHat'
   debug:
     msg: "{{ java8_rpms }}"
@@ -8,10 +23,9 @@
 - name: Ensure Java is installed.
   when: ansible_os_family == 'RedHat'
   yum:
-    name: "{{ item }}"
+    name: "{{ java8_rpms }}"
     state: present
   retries: 5
-  with_items: "{{ java8_rpms }}"
 
 - name: Ensure file is installed for tests
   when: ansible_os_family == 'RedHat'
@@ -19,7 +33,7 @@
     name: file
     state: present
 
-- name: what java8_apt
+- name: What java8_apt
   when: ansible_os_family == 'Debian'
   debug:
     msg: "{{ java8_apt }}"
@@ -39,35 +53,13 @@
     - java8
     - java8_install
 
-- name: Add apt repository
-  when: ansible_os_family == 'Debian'
-  apt_repository:
-    repo: ppa:openjdk-r/ppa
-    validate_certs: no
-
 - name: Ensure Java is installed.
   when: ansible_os_family == 'Debian'
   apt:
-    name: "{{ item }}"
+    name: "{{ java8_apt }}"
     state: present
-  with_items: "{{ java8_apt }}"
 
-- name: 'set java_top'
-  become: yes
-  set_fact:
-    java8_top: '/usr/lib/jvm'
-  tags:
-    - java8
-    - java8_install
-    - java8_profile
-    - java8_test
-    - java8_alternatives
-    - test
-    - ant_test
-    - maven_test
-    - gradle_test
-
-- name: 'make sure java_top exists'
+- name: Make sure java_top exists
   become: yes
   file:
     path: "{{ java8_top }}"
@@ -77,7 +69,7 @@
   tags:
     - java8
 
-- name: 'this is JAVA_HOME'
+- name: This is JAVA_HOME
   when: ansible_os_family == 'RedHat'
   set_fact:
     java8_home: "{{ java8_top }}/java"
@@ -89,7 +81,7 @@
     - maven_test
     - gradle_test
 
-- name: 'this is JAVA_HOME'
+- name: This is JAVA_HOME
   when: ansible_os_family == 'Debian'
   set_fact:
     java8_home: "{{ java8_top }}/{{ ubuntu_dir }}"
@@ -101,7 +93,6 @@
     - maven_test
     - gradle_test
 
-
 - name: Ensure facts can be stored locally
   file:
     path: /etc/ansible/facts.d
@@ -112,7 +103,7 @@
   tags:
     - java8
 
-- name: 'install java8 facts'
+- name: Install java8 facts
   template:
     src: java8.fact
     dest: /etc/ansible/facts.d/java8.fact
@@ -122,7 +113,7 @@
   tags:
     - java8
 
-- name: 'fix JAVA_HOME'
+- name: Fix JAVA_HOME
   become: yes
   template:
     src: java.sh
@@ -131,7 +122,11 @@
     - java8
     - java8_profile
 
-- include: tests.yml
+- name: Copy goss tests template
+  template:
+    src: java8_goss.yml
+    dest: /root/java8_goss.yml
   tags:
     - java8
+    - java8_profile
     - test

@@ -24,7 +24,7 @@
     - java8_test
     - test
 
-- name: verify java version
+- name: log java version
   become: no
   debug:
     msg: "java ?? {{ java.stderr }}"

@@ -1,0 +1,105 @@
+---
+
+- name: setup
+  become: no
+  file:
+    state: absent
+    path: "{{ item }}"
+  with_items:
+    - './Whoami.java'
+    - './Whoami.class'
+  tags:
+    - java8
+    - java8_test
+    - test
+
+- name: smoke test java runtime
+  become: no
+  command: "java -version"
+  changed_when: no
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  register: java
+  tags:
+    - java8
+    - java8_test
+    - test
+
+- name: log java version
+  become: no
+  debug:
+    msg: "java ?? {{ java.stderr }}"
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  tags:
+    - java8
+    - java8_test
+    - test
+
+- name: copy java source for tests
+  become: no
+  copy:
+    src: Whoami.java
+    dest: /tmp
+  changed_when: no  # test only
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  tags:
+    - java8
+    - java8_test
+    - test
+
+- name: functional test Java compiler
+  become: no
+  command: "javac /tmp/Whoami.java"
+  register: java_compile
+  changed_when: no  # test only
+  failed_when: "java_compile.rc != 0"
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  tags:
+    - java8
+    - java8_test
+    - test
+
+- name: functional test Java runtime
+  become: no
+  command: "java -cp /tmp Whoami"
+  changed_when: no
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  register: java8_class
+  tags:
+    - java8
+    - java8_test
+    - test
+
+- name: verify bytecode version
+  become: no
+  command: "file /tmp/Whoami.class"
+  changed_when: no
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  register: java8_class
+  tags:
+    - java8
+    - java8_test
+    - test
+
+- name: display bytecode version
+  become: no
+  debug:
+    msg: "{{ java8_class.stdout_lines }}"
+  ignore_errors: "{{ continue_on_error | default(True) }}"
+  tags:
+    - java8
+    - java8_test
+    - test
+
+- name: teardown
+  become: no
+  file:
+    state: absent
+    path: "{{ item }}"
+  with_items:
+    - '/tmp/Whoami.java'
+    - '/tmp/Whoami.class'
+  changed_when: no  # test only
+  tags:
+    - java8
+    - java8_test
+    - test
