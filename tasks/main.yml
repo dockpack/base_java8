@@ -23,10 +23,9 @@
 - name: Ensure Java is installed.
   when: ansible_os_family == 'RedHat'
   yum:
-    name: "{{ item }}"
+    name: "{{ java8_rpms }}"
     state: present
   retries: 5
-  with_items: "{{ java8_rpms }}"
 
 - name: Ensure file is installed for tests
   when: ansible_os_family == 'RedHat'
@@ -57,9 +56,8 @@
 - name: Ensure Java is installed.
   when: ansible_os_family == 'Debian'
   apt:
-    name: "{{ item }}"
+    name: "{{ java8_apt }}"
     state: present
-  with_items: "{{ java8_apt }}"
 
 - name: Make sure java_top exists
   become: yes
