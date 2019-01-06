@@ -11,6 +11,7 @@
     - java8_test
     - java8_alternatives
     - test
+    - config
     - ant_test
     - maven_test
     - gradle_test
@@ -74,6 +75,7 @@
   set_fact:
     java8_home: "{{ java8_top }}/java"
   tags:
+    - config
     - java8
     - java8_test
     - test
@@ -86,6 +88,7 @@
   set_fact:
     java8_home: "{{ java8_top }}/{{ ubuntu_dir }}"
   tags:
+    - config
     - java8
     - java8_test
     - test
@@ -102,6 +105,7 @@
     mode: 0755
   tags:
     - java8
+    - config
 
 - name: Install java8 facts
   template:
@@ -112,6 +116,7 @@
     mode: 0644
   tags:
     - java8
+    - config
 
 - name: Fix JAVA_HOME
   become: yes
@@ -119,6 +124,7 @@
     src: java.sh
     dest: /etc/profile.d/java.sh
   tags:
+    - config
     - java8
     - java8_profile
 
@@ -130,3 +136,4 @@
     - java8
     - java8_profile
     - test
+    - config
