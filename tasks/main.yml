@@ -128,6 +128,19 @@
     - java8
     - java8_profile
 
+- name: ensure directory exists
+  file:
+    path: /root
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+  tags:
+    - java8
+    - java8_profile
+    - test
+    - config
+
 - name: Copy goss tests template
   template:
     src: java8_goss.yml
