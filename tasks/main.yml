@@ -120,7 +120,7 @@
 
 - name: Copy test_java.yml to remote
   template:
-    src: test_java.yml
+    src: test_java.yml.j2
     dest: /root/test_java.yml
   tags:
     - java8
