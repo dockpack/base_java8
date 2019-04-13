@@ -22,3 +22,14 @@ file:
     group: root
     contains:
       - 'crypto.policy=unlimited'
+
+package:
+{% if ansible_os_family == 'RedHat' %}
+{% for item in java8_rpms %}
+  {{ item }}
+    installed: true
+{% endfor %}
+{% else %}
+  {{ java8_apt }}:
+    installed: true
+{% endif %}
