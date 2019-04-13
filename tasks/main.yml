@@ -118,6 +118,16 @@
     - java8
     - config
 
+- name: Copy test_java.yml to remote
+  template:
+    src: test_java.yml
+    dest: /root/test_java.yml
+  tags:
+    - java8
+    - java8_profile
+    - test
+    - config
+
 - name: Fix JAVA_HOME
   become: yes
   template:
@@ -135,16 +145,6 @@
     owner: root
     group: root
     mode: 0700
-  tags:
-    - java8
-    - java8_profile
-    - test
-    - config
-
-- name: Copy goss tests template
-  template:
-    src: java8_goss.yml
-    dest: /root/java8_goss.yml
   tags:
     - java8
     - java8_profile
