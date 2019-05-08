@@ -73,7 +73,7 @@
   register: network_access
   until: network_access is success
   retries: 10
-  delay:
+  delay: 2
 
 - name: Make sure java_top exists
   become: yes
