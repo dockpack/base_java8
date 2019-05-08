@@ -61,6 +61,10 @@
   apt:
     update_cache: yes
     cache_valid_time: 86400
+  register: network_access
+  until: network_access is success
+  retries: 10
+  delay: 2
   tags:
     - java8
     - java8_install
