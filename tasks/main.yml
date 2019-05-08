@@ -26,13 +26,20 @@
   yum:
     name: "{{ java8_rpms }}"
     state: present
-  retries: 5
+  register: network_access
+  until: network_access is success
+  retries: 10
+  delay: 2
 
 - name: Ensure file is installed for tests
   when: ansible_os_family == 'RedHat'
   yum:
     name: file
     state: present
+  register: network_access
+  until: network_access is success
+  retries: 10
+  delay: 2
 
 - name: What java8_apt
   when: ansible_os_family == 'Debian'
@@ -44,6 +51,10 @@
   apt:
     name: python-apt
     state: present
+  register: network_access
+  until: network_access is success
+  retries: 10
+  delay: 2
 
 - name: Update apt cache.
   when: ansible_os_family == 'Debian'
@@ -59,6 +70,10 @@
   apt:
     name: "{{ java8_apt }}"
     state: present
+  register: network_access
+  until: network_access is success
+  retries: 10
+  delay:
 
 - name: Make sure java_top exists
   become: yes
