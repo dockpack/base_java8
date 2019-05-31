@@ -15,13 +15,14 @@ platforms:
     image: centos:6
     privileged: true
   - name: base-java8-ubuntu
-    image: ubuntu
+    image: ubuntu:xenial
     privileged: True
 provisioner:
   name: ansible
   config_options:
     defaults:
       remote_tmp: /tmp
+      stdout_callback: yaml
   playbooks:
     converge: playbook.yml
   lint:
