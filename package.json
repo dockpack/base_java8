@@ -1,6 +1,6 @@
 {
   "name": "dockpack.base_java8",
-  "version": "0.5.3",
+  "version": "1.0.0",
   "scripts": {
     "release": "release-it"
   },
