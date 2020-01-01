@@ -3,6 +3,10 @@
 java8_rpms:
   - 'java-1.8.0-openjdk-headless.x86_64'
   - 'java-1.8.0-openjdk-devel.x86_64'
+  - 'java-11-openjdk-headless.x86_64'
+  - 'java-11-openjdk-devel.x86_64'
+  - 'java-latest-openjdk-headless'
+  - 'java-latest-openjdk-devel.x86_64'
 
 java8_apt: 'openjdk-8-jdk'
 ubuntu_dir: 'java-8-openjdk-amd64'
