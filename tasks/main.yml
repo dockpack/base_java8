@@ -1,21 +1,14 @@
 ---
 
-- name: Set java_top
+- name: Make sure java_top exists
   become: yes
-  set_fact:
-    java8_top: '/usr/lib/jvm'
+  file:
+    path: "{{ java8_top }}"
+    state: directory
+    owner: root
+    mode: 0755
   tags:
     - java8
-    - java8_install
-    - java8_profile
-    - java8_test
-    - java8_alternatives
-    - test
-    - config
-    - ant_test
-    - maven_test
-    - gradle_test
-
 
 - name: Ensure python-apt is installed.
   when: ansible_os_family == 'Debian'
@@ -47,6 +40,7 @@
     - java9
     - java11
     - java13
+    - test
 
 - name: Ensure Java8 is installed
   when:
@@ -179,24 +173,15 @@
   retries: 3
   delay: 3
 
-- name: Make sure java_top exists
-  become: yes
-  file:
-    path: "{{ java8_top }}"
-    state: directory
-    owner: root
-    mode: 0755
-  tags:
-    - java8
-
 - name: This is JAVA_HOME
   when: ansible_os_family == 'RedHat'
   set_fact:
-    java8_home: "{{ java8_top }}/java"
+    java8_home: "{{ java8_top }}/{{ base_jdk }}"
   tags:
     - config
     - java8
     - java8_test
+    - java11
     - test
     - ant_test
     - maven_test
@@ -244,6 +229,7 @@
   tags:
     - java8
     - java8_profile
+    - java11
     - test
     - config
 
@@ -254,7 +240,9 @@
     dest: /etc/profile.d/java.sh
   tags:
     - config
+    - test
     - java8
+    - java11
     - java8_profile
 
 - name: ensure directory exists

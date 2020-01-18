@@ -1,27 +1,15 @@
 file:
-  "{{ java8_home }}/bin/javac":
+  "/usr/lib/jvm/{{ base_jdk }}/bin/javac":
     exists: true
     owner: root
     group: root
     filetype: file
     contains: []
-  "{{ java8_home }}/bin/java":
+  "/usr/lib/jvm/{{ base_jdk }}/bin/java":
     exists: true
     owner: root
     group: root
     contains: []
-  "{{ java8_home }}/jre/bin/java":
-    exists: true
-    owner: root
-    group: root
-    filetype: file
-    contains: []
-  "{{ java8_home }}/jre/lib/security/java.security":
-    exists: true
-    owner: root
-    group: root
-    contains:
-      - 'crypto.policy=unlimited'
 
 package:
 {% if ansible_os_family == 'RedHat' %}
