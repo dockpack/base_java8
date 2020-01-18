@@ -25,11 +25,8 @@ file:
 
 package:
 {% if ansible_os_family == 'RedHat' %}
-{% for item in java8_rpms %}
+{% for item in java8_packages %}
   {{ item }}:
     installed: true
 {% endfor %}
-{% else %}
-  {{ java8_apt }}:
-    installed: true
 {% endif %}
