@@ -41,6 +41,7 @@
     - java11
     - java13
     - test
+    - config
 
 - name: Ensure Java8 is installed
   when:
@@ -174,27 +175,13 @@
   delay: 3
 
 - name: This is JAVA_HOME
-  when: ansible_os_family == 'RedHat'
   set_fact:
-    java8_home: "{{ java8_top }}/{{ base_jdk }}"
+    java8_home: "{{ java8_top }}/{{ base_jdk }}{{ javahome_suffix }}"
   tags:
     - config
     - java8
     - java8_test
     - java11
-    - test
-    - ant_test
-    - maven_test
-    - gradle_test
-
-- name: This is JAVA_HOME
-  when: ansible_os_family == 'Debian'
-  set_fact:
-    java8_home: "{{ java8_top }}/{{ ubuntu_dir }}"
-  tags:
-    - config
-    - java8
-    - java8_test
     - test
     - ant_test
     - maven_test
@@ -222,6 +209,19 @@
     - java8
     - config
 
+- name: ensure directory exists
+  file:
+    path: /root
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+  tags:
+    - java8
+    - java8_profile
+    - test
+    - config
+
 - name: Copy test_java.yml to remote
   template:
     src: test_java.yml.j2
@@ -245,15 +245,3 @@
     - java11
     - java8_profile
 
-- name: ensure directory exists
-  file:
-    path: /root
-    state: directory
-    owner: root
-    group: root
-    mode: 0700
-  tags:
-    - java8
-    - java8_profile
-    - test
-    - config
