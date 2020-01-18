@@ -1,11 +1,11 @@
 file:
-  "/usr/lib/jvm/{{ base_jdk }}/bin/javac":
+  "{{ java8_home }}/bin/javac":
     exists: true
     owner: root
     group: root
     filetype: file
     contains: []
-  "/usr/lib/jvm/{{ base_jdk }}/bin/java":
+  "{{ java8_home }}/bin/java":
     exists: true
     owner: root
     group: root
