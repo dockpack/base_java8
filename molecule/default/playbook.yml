@@ -4,8 +4,8 @@
   vars:
     base_jdk: 'java-11'
   roles:
-    - {role: dockpack.base_goss}
     - {role: base_java8}
+    - {role: dockpack.base_goss}
 
   post_tasks:
     - include_tasks:
