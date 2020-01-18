@@ -1,9 +1,11 @@
 ---
 # Standards: 0.2
 - hosts: all
+  vars:
+    base_jdk: 'java-11'
   roles:
     - {role: dockpack.base_goss}
-    - {role: base_java8, continue_on_error: False}
+    - {role: base_java8}
 
   post_tasks:
     - include_tasks:

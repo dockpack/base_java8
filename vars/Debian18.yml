@@ -1,0 +1,9 @@
+---
+
+java8_packages:
+  - 'openjdk-8-jdk'
+java9_packages: []
+java11_packages:
+  - 'openjdk-11-jdk-headless'
+  - 'openjdk-11-jre-headless'
+java_latest_packages: []
