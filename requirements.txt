@@ -1,4 +1,4 @@
 tox
-molecule
+molecule==2.22
 docker
 jmespath
