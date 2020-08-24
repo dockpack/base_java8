@@ -239,7 +239,7 @@
   template:
     src: java.sh
     dest: /etc/profile.d/java.sh
-    mode: 644
+    mode: 0644
   tags:
     - config
     - test
