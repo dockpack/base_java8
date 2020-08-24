@@ -226,6 +226,7 @@
   template:
     src: test_java.yml.j2
     dest: /root/test_java.yml
+    mode: 0644
   tags:
     - java8
     - java8_profile
@@ -238,6 +239,7 @@
   template:
     src: java.sh
     dest: /etc/profile.d/java.sh
+    mode: 644
   tags:
     - config
     - test
