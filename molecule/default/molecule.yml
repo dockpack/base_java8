@@ -11,9 +11,6 @@ platforms:
   - name: base-java8-centos7
     image: centos:7
     privileged: True
-  - name: base-java8-centos6
-    image: centos:6
-    privileged: true
   - name: base-java8-xenial
     image: ubuntu:xenial
     privileged: True
