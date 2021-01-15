@@ -3,8 +3,3 @@
 - hosts: all
   roles:
     - {role: base_java8}
-    - {role: dockpack.base_goss}
-
-  post_tasks:
-    - include_tasks:
-        tests/test_java8.yml
