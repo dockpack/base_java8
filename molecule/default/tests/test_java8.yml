@@ -1,7 +1,7 @@
 ---
 
 - name: setup
-  become: no
+  become: false
   file:
     state: absent
     path: "{{ item }}"
@@ -14,10 +14,10 @@
     - test
 
 - name: smoke test java runtime
-  become: no
+  become: false
   command: "java -version"
-  changed_when: no
-  ignore_errors: "{{ continue_on_error | default(True) }}"
+  changed_when: false
+  ignore_errors: "{{ continue_on_error | default(true, true) }}"
   register: java
   tags:
     - java8
@@ -25,44 +25,44 @@
     - test
 
 - name: log java version
-  become: no
+  become: false
   debug:
     msg: "java ?? {{ java.stderr }}"
-  ignore_errors: "{{ continue_on_error | default(True) }}"
+  ignore_errors: "{{ continue_on_error | default(true, true) }}"
   tags:
     - java8
     - java8_test
     - test
 
 - name: copy java source for tests
-  become: no
+  become: false
   copy:
     src: Whoami.java
     dest: /tmp
-  changed_when: no  # test only
-  ignore_errors: "{{ continue_on_error | default(True) }}"
+  changed_when: false
+  ignore_errors: "{{ continue_on_error | default(true, true) }}"
   tags:
     - java8
     - java8_test
     - test
 
 - name: functional test Java compiler
-  become: no
+  become: false
   command: "javac /tmp/Whoami.java"
   register: java_compile
-  changed_when: no  # test only
+  changed_when: false
   failed_when: "java_compile.rc != 0"
-  ignore_errors: "{{ continue_on_error | default(True) }}"
+  ignore_errors: "{{ continue_on_error | default(true, true) }}"
   tags:
     - java8
     - java8_test
     - test
 
 - name: functional test Java runtime
-  become: no
+  become: false
   command: "java -cp /tmp Whoami"
-  changed_when: no
-  ignore_errors: "{{ continue_on_error | default(True) }}"
+  changed_when: false
+  ignore_errors: "{{ continue_on_error | default(true, true) }}"
   register: java8_class
   tags:
     - java8
@@ -70,10 +70,10 @@
     - test
 
 - name: verify bytecode version
-  become: no
+  become: false
   command: "file /tmp/Whoami.class"
-  changed_when: no
-  ignore_errors: "{{ continue_on_error | default(True) }}"
+  changed_when: false
+  ignore_errors: "{{ continue_on_error | default(true, true) }}"
   register: java8_class
   tags:
     - java8
@@ -81,24 +81,24 @@
     - test
 
 - name: display bytecode version
-  become: no
+  become: false
   debug:
     msg: "{{ java8_class.stdout_lines }}"
-  ignore_errors: "{{ continue_on_error | default(True) }}"
+  ignore_errors: "{{ continue_on_error | default(true, true) }}"
   tags:
     - java8
     - java8_test
     - test
 
 - name: teardown
-  become: no
+  become: false
   file:
     state: absent
     path: "{{ item }}"
   with_items:
     - '/tmp/Whoami.java'
     - '/tmp/Whoami.class'
-  changed_when: no  # test only
+  changed_when: false
   tags:
     - java8
     - java8_test

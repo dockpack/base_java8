@@ -5,27 +5,21 @@ dependency:
   requirements_file: requirements.yml
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
 platforms:
   - name: base-java8-centos7
     image: centos:7
-    privileged: True
+    privileged: true
   - name: base-java8-xenial
     image: ubuntu:xenial
-    privileged: True
+    privileged: true
   - name: base-java8-bionic
     image: ubuntu:bionic
-    privileged: True
+    privileged: true
 provisioner:
   name: ansible
-  config_options:
-    defaults:
-      remote_tmp: /tmp
-      stdout_callback: yaml
-  playbooks:
-    converge: playbook.yml
-  lint:
-    name: ansible-lint
-scenario:
-  name: default
+verifier:
+  name: ansible
