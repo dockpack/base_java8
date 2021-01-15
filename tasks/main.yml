@@ -1,7 +1,7 @@
 ---
 
 - name: Make sure java_top exists
-  become: yes
+  become: true
   file:
     path: "{{ java8_top }}"
     state: directory
@@ -23,7 +23,7 @@
 - name: Update apt cache.
   when: ansible_os_family == 'Debian'
   apt:
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 86400
   register: network_access
   until: network_access is success
@@ -34,6 +34,7 @@
     - java8_install
 
 - name: Which java packages to install
+  # yamllint disable-line rule:line-length
   include_vars: "{{ ansible_os_family }}{{ ansible_distribution_major_version }}.yml"
   tags:
     - java8
@@ -235,7 +236,7 @@
     - config
 
 - name: Fix JAVA_HOME
-  become: yes
+  become: true
   template:
     src: java.sh
     dest: /etc/profile.d/java.sh
