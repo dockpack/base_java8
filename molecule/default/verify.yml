@@ -41,7 +41,7 @@
     - name: copy java source for tests
       become: false
       copy:
-        src: Whoami.java
+        src: tests/Whoami.java
         dest: /tmp
         mode: 0644
       changed_when: false

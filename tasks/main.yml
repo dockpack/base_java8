@@ -91,6 +91,7 @@
   when:
     - java_latest_packages is defined
     - java_latest_packages|length
+    - ansible_distribution == 'CentOS'
   yum:
     name: epel-release
     state: present
