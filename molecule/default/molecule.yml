@@ -10,15 +10,21 @@ lint: |
   yamllint .
   ansible-lint
 platforms:
+  - name: base-java8-ubi8
+    image: registry.access.redhat.com/ubi8/ubi
+    privileged: true
+  - name: base-java8-centos8
+    image: centos:8.3.2011
+    privileged: true
   - name: base-java8-centos7
     image: centos:7
     privileged: true
-  - name: base-java8-xenial
-    image: ubuntu:xenial
-    privileged: true
-  - name: base-java8-bionic
-    image: ubuntu:bionic
-    privileged: true
+#  - name: base-java8-xenial
+#    image: ubuntu:xenial
+#    privileged: true
+#  - name: base-java8-bionic
+#    image: ubuntu:bionic
+#    privileged: true
 provisioner:
   name: ansible
 verifier:
