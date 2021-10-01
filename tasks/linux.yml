@@ -1,0 +1,251 @@
+---
+
+- name: Make sure java_top exists
+  become: true
+  file:
+    path: "{{ java8_top }}"
+    state: directory
+    owner: root
+    mode: 0755
+  tags:
+    - java8
+
+- name: Ensure python-apt is installed.
+  when: ansible_os_family == 'Debian'
+  apt:
+    name: python-apt
+    state: present
+    update_cache: true
+  register: network_access
+  until: network_access is success
+  retries: 3
+  delay: 3
+
+- name: Update apt cache.
+  when: ansible_os_family == 'Debian'
+  apt:
+    update_cache: true
+    cache_valid_time: 86400
+  register: network_access
+  until: network_access is success
+  retries: 3
+  delay: 3
+  tags:
+    - java8
+    - java8_install
+
+- name: Which java packages to install
+  # yamllint disable-line rule:line-length
+  include_vars: "{{ ansible_os_family }}{{ ansible_distribution_major_version }}.yml"
+  tags:
+    - java8
+    - java9
+    - java11
+    - java13
+    - test
+    - config
+
+- name: Ensure Java8 is installed
+  when:
+    - java8_packages is defined
+    - java8_packages|length
+  package:
+    name: "{{ java8_packages }}"
+    state: present
+  register: network_access
+  until: network_access is success
+  retries: 3
+  delay: 3
+  tags:
+    - java8
+
+- name: Ensure Java9 is installed
+  when:
+    - java9_packages is defined
+    - java9_packages|length
+  package:
+    name: "{{ java9_packages }}"
+    state: present
+  register: network_access
+  until: network_access is success
+  retries: 3
+  delay: 3
+  tags:
+    - java9
+
+- name: Ensure Java11 is installed
+  when:
+    - java11_packages is defined
+    - java11_packages|length
+  package:
+    name: "{{ java11_packages }}"
+    state: present
+  register: network_access
+  until: network_access is success
+  retries: 3
+  delay: 3
+  tags:
+    - java11
+
+- name: Ensure epel-release is installed
+  when:
+    - java_latest_packages is defined
+    - java_latest_packages|length
+    - ansible_distribution == 'CentOS'
+  yum:
+    name: epel-release
+    state: present
+  register: network_access
+  until: network_access is success
+  retries: 3
+  delay: 3
+  tags:
+    - java13
+
+- name: Ensure Java-latest is installed
+  when:
+    - java_latest_packages is defined
+    - java_latest_packages|length
+  package:
+    name: "{{ java_latest_packages }}"
+    state: present
+  register: network_access
+  until: network_access is success
+  retries: 3
+  delay: 3
+  tags:
+    - java13
+
+- name: Correct java alternatives selected
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version|int >= 7
+  alternatives:
+    link: "/usr/bin/{{ item }}"
+    name: "{{ item }}"
+    path: "/usr/lib/jvm/{{ base_jdk }}/bin/{{ item }}"
+  with_items:
+    - java
+    - javac
+  tags:
+    - alternatives
+    - java11
+
+- name: Correct tools alternatives selected
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version|int >= 7
+  alternatives:
+    link: "/etc/alternatives/{{ item }}"
+    name: "{{ item }}"
+    path: "/usr/lib/jvm/{{ base_jdk }}/bin/{{ item }}"
+  with_items:
+    - jar
+    - jarsigner
+    - javadoc
+    - javap
+    - jcmd
+    - jconsole
+    - jdb
+    - jdeps
+    - jinfo
+    - jjs
+    - jmap
+    - jps
+    - jrunscript
+    - jstack
+    - jstat
+    - jstatd
+    - keytool
+    - pack200
+    - rmic
+    - rmid
+    - rmiregistry
+    - serialver
+    - unpack200
+  tags:
+    - alternatives
+    - java11
+
+- name: Ensure file is installed for tests
+  when: ansible_os_family == 'RedHat'
+  yum:
+    name: file
+    state: present
+  register: network_access
+  until: network_access is success
+  retries: 3
+  delay: 3
+
+- name: This is JAVA_HOME
+  set_fact:
+    java8_home: "{{ java8_top }}/{{ base_jdk }}{{ javahome_suffix }}"
+  tags:
+    - config
+    - java8
+    - java8_test
+    - java11
+    - test
+    - ant_test
+    - maven_test
+    - gradle_test
+
+- name: Ensure facts can be stored locally
+  file:
+    path: /etc/ansible/facts.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - java8
+    - config
+
+- name: Install java8 facts
+  template:
+    src: java8.fact
+    dest: /etc/ansible/facts.d/java8.fact
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - java8
+    - config
+
+- name: ensure directory exists
+  file:
+    path: /root
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+  tags:
+    - java8
+    - java8_profile
+    - test
+    - config
+
+- name: Copy test_java.yml to remote
+  template:
+    src: test_java.yml.j2
+    dest: /root/test_java.yml
+    mode: 0644
+  tags:
+    - java8
+    - java8_profile
+    - java11
+    - test
+    - config
+
+- name: Fix JAVA_HOME
+  become: true
+  template:
+    src: java.sh
+    dest: /etc/profile.d/java.sh
+    mode: 0644
+  tags:
+    - config
+    - test
+    - java8
+    - java11
+    - java8_profile

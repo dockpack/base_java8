@@ -1,0 +1,30 @@
+---
+
+- name: Which java packages to install
+  # yamllint disable-line rule:line-length
+  include_vars: Windows.yml
+  tags:
+    - java8
+    - java9
+    - java11
+    - java13
+    - test
+    - config
+
+- name: Install Java
+  win_chocolatey:
+    name: "{{ jdk_package }}"
+    state: present
+    version: "{{ java_major }}.{{ java_minor }}"
+
+- name: Set Java_home
+  win_environment:
+    state: present
+    name: JAVA_HOME
+    value: "{{ win_java_home }}"
+    level: machine
+
+- name: Add Java to path
+  win_path:
+    elements:
+      - "{{ win_java_path }}"
