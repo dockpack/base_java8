@@ -28,3 +28,4 @@
   win_path:
     elements:
       - "{{ win_java_path }}"
+...

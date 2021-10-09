@@ -8,3 +8,4 @@ base_jdk_alternatives:
   - 'java-1.8.0'
   - 'java-11'
   - 'java-13'
+...

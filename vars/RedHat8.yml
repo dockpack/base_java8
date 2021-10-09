@@ -1,4 +1,5 @@
 ---
+
 java8_top: '/usr/lib/jvm'
 java8_packages:
   - 'java-1.8.0-openjdk-headless.x86_64'
@@ -9,3 +10,4 @@ java11_packages:
   - 'java-11-openjdk-devel.x86_64'
 java_latest_packages: []
 javahome_suffix: ''
+...
