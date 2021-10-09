@@ -8,3 +8,4 @@ java11_packages:
   - 'openjdk-11-jre-headless'
 java_latest_packages: []
 javahome_suffix: '-openjdk-amd64'
+...

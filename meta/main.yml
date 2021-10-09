@@ -1,5 +1,5 @@
 ---
-
+# Standards: 0.2
 galaxy_info:
   role_name: base_java8
   namespace: dockpack
@@ -27,3 +27,4 @@ galaxy_info:
     - development
 
 dependencies: []
+...

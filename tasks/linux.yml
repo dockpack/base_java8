@@ -1,7 +1,6 @@
 ---
 
 - name: Make sure java_top exists
-  become: true
   file:
     path: "{{ java8_top }}"
     state: directory
@@ -212,7 +211,7 @@
     - java8
     - config
 
-- name: ensure directory exists
+- name: Ensure directory exists
   file:
     path: /root
     state: directory
@@ -238,7 +237,6 @@
     - config
 
 - name: Fix JAVA_HOME
-  become: true
   template:
     src: java.sh
     dest: /etc/profile.d/java.sh
@@ -249,3 +247,4 @@
     - java8
     - java11
     - java8_profile
+...

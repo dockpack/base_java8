@@ -13,3 +13,4 @@
   when: ansible_os_family == 'Windows'
   tags:
     - windows
+...
