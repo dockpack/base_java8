@@ -9,7 +9,7 @@ This is an ansible-role to install several Java versions on Centos or Ubuntu.
 Requirements
 ------------
 
-Centos 6 or 7. Ubuntu Xenial or Bionic.
+Centos 6 or 7. Ubuntu Xenial or Bionic. Windows.
 
 
 Role Variables
