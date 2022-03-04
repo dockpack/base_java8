@@ -14,7 +14,7 @@ platforms:
     image: registry.access.redhat.com/ubi8/ubi
     privileged: true
   - name: base-java8-centos8
-    image: centos:8.3.2011
+    image: centos:stream8
     privileged: true
   - name: base-java8-centos7
     image: centos:7
