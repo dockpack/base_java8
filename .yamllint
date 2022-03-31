@@ -3,8 +3,5 @@ extends: default
 
 rules:
   truthy:
-    allowed-values: ['true', 'false', 'on']
-    check-keys: true
-
-ignore: |
-  .tox/
+    allowed-values: ['true', 'false']
+    check-keys: false
