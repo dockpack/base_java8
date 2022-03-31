@@ -38,7 +38,6 @@
   include_vars: "{{ ansible_os_family }}{{ ansible_distribution_major_version }}.yml"
   tags:
     - java8
-    - java9
     - java11
     - java13
     - test
@@ -58,20 +57,6 @@
   tags:
     - java8
 
-- name: Ensure Java9 is installed
-  when:
-    - java9_packages is defined
-    - java9_packages|length
-  package:
-    name: "{{ java9_packages }}"
-    state: present
-  register: network_access
-  until: network_access is success
-  retries: 3
-  delay: 3
-  tags:
-    - java9
-
 - name: Ensure Java11 is installed
   when:
     - java11_packages is defined
@@ -85,35 +70,6 @@
   delay: 3
   tags:
     - java11
-
-- name: Ensure epel-release is installed
-  when:
-    - java_latest_packages is defined
-    - java_latest_packages|length
-    - ansible_distribution == 'CentOS'
-  yum:
-    name: epel-release
-    state: present
-  register: network_access
-  until: network_access is success
-  retries: 3
-  delay: 3
-  tags:
-    - java13
-
-- name: Ensure Java-latest is installed
-  when:
-    - java_latest_packages is defined
-    - java_latest_packages|length
-  package:
-    name: "{{ java_latest_packages }}"
-    state: present
-  register: network_access
-  until: network_access is success
-  retries: 3
-  delay: 3
-  tags:
-    - java13
 
 - name: Correct java alternatives selected
   when:
