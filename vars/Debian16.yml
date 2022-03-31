@@ -2,10 +2,6 @@
 
 java8_packages:
   - 'openjdk-8-jdk'
-java9_packages:
-  - 'openjdk-9-jdk-headless'
-  - 'openjdk-9-jre-headless'
 java11_packages: []
-java_latest_packages: []
 javahome_suffix: '-openjdk-amd64'
 ...
