@@ -72,13 +72,10 @@
     - java11
 
 - name: Correct java alternatives selected
-  when:
-    - ansible_os_family == 'RedHat'
-    - ansible_distribution_major_version|int >= 7
   alternatives:
     link: "/usr/bin/{{ item }}"
     name: "{{ item }}"
-    path: "/usr/lib/jvm/{{ base_jdk }}/bin/{{ item }}"
+    path: "/usr/lib/jvm/{{ base_jdk ~ javahome_suffix }}/bin/{{ item }}"
   with_items:
     - java
     - javac
@@ -87,20 +84,16 @@
     - java11
 
 - name: Correct tools alternatives selected
-  when:
-    - ansible_os_family == 'RedHat'
-    - ansible_distribution_major_version|int >= 7
   alternatives:
     link: "/etc/alternatives/{{ item }}"
     name: "{{ item }}"
-    path: "/usr/lib/jvm/{{ base_jdk }}/bin/{{ item }}"
+    path: "/usr/lib/jvm/{{ base_jdk ~ javahome_suffix }}/bin/{{ item }}"
   with_items:
     - jar
     - jarsigner
     - javadoc
     - javap
     - jcmd
-    - jconsole
     - jdb
     - jdeps
     - jinfo
