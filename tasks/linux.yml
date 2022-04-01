@@ -138,10 +138,19 @@
     dest: /root/test_java.yml
     mode: 0644
 
-- name: Fix JAVA_HOME
+- name: Set JAVA_HOME in /etc/profile.d/java.sh
   template:
     src: java.sh
     dest: /etc/profile.d/java.sh
     mode: 0644
 
+- name: Set JAVA_HOME in /etc/environment
+  blockinfile:
+    path: /etc/environment
+    state: present
+    block: |
+      JAVA_HOME={{ java8_home }}
+      JRE_HOME={{ java8_home }}/jre
+      JDK_HOME={{ java8_home }}
+    marker: '# base_java'
 ...
