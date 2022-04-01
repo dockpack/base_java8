@@ -145,12 +145,18 @@
     mode: 0644
 
 - name: Set JAVA_HOME in /etc/environment
+  when: ansible_os_family == 'Debian'
   blockinfile:
-    path: /etc/environment
-    state: present
     block: |
       JAVA_HOME={{ java8_home }}
       JRE_HOME={{ java8_home }}/jre
       JDK_HOME={{ java8_home }}
-    marker: '# base_java'
+    create: true
+    group: root
+    marker: '# base_java {mark}'
+    mode: 0644
+    owner: root
+    path: /etc/environment
+    state: present
+
 ...
