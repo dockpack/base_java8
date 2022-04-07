@@ -124,18 +124,18 @@
     group: root
     mode: 0644
 
-- name: Ensure directory exists
+- name: Ensure goss directory exists
   file:
-    path: /root
+    path: /etc/goss.d
     state: directory
     owner: root
     group: root
-    mode: 0700
+    mode: 0755
 
-- name: Copy test_java.yml to remote
+- name: Copy test_java.yml to goss directory
   template:
     src: test_java.yml.j2
-    dest: /root/test_java.yml
+    dest: /etc/goss.d/test_java.yml
     mode: 0644
 
 - name: Set JAVA_HOME in /etc/profile.d/java.sh
