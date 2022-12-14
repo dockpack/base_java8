@@ -6,7 +6,6 @@ lint: |
   set -e
   yamllint .
   ansible-lint
-  ansible-later
 platforms:
   - name: base-java8-centos8
     image: quay.io/centos/centos:stream8
