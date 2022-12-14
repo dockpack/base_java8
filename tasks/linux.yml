@@ -57,6 +57,7 @@
   delay: 3
 
 - name: Correct java alternatives selected
+  when: ansible_os_family == 'RedHat'
   alternatives:
     link: "/usr/bin/{{ exe }}"
     name: "{{ exe }}"
@@ -68,6 +69,7 @@
     loop_var: exe
 
 - name: Correct tools alternatives selected
+  when: ansible_os_family == 'RedHat'
   alternatives:
     link: "/etc/alternatives/{{ exe }}"
     name: "{{ exe }}"
