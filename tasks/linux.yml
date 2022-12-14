@@ -58,19 +58,21 @@
 
 - name: Correct java alternatives selected
   alternatives:
-    link: "/usr/bin/{{ item }}"
-    name: "{{ item }}"
-    path: "/usr/lib/jvm/{{ base_jdk ~ javahome_suffix }}/bin/{{ item }}"
-  with_items:
+    link: "/usr/bin/{{ exe }}"
+    name: "{{ exe }}"
+    path: "/usr/lib/jvm/{{ base_jdk ~ javahome_suffix }}/bin/{{ exe }}"
+  loop:
     - java
     - javac
+  loop_control:
+    loop_var: exe
 
 - name: Correct tools alternatives selected
   alternatives:
-    link: "/etc/alternatives/{{ item }}"
-    name: "{{ item }}"
-    path: "/usr/lib/jvm/{{ base_jdk ~ javahome_suffix }}/bin/{{ item }}"
-  with_items:
+    link: "/etc/alternatives/{{ exe }}"
+    name: "{{ exe }}"
+    path: "/usr/lib/jvm/{{ base_jdk ~ javahome_suffix }}/bin/{{ exe }}"
+  loop:
     - jar
     - jarsigner
     - javadoc
@@ -93,6 +95,8 @@
     - rmiregistry
     - serialver
     - unpack200
+  loop_control:
+    loop_var: exe
 
 - name: Ensure file is installed for tests
   when: ansible_os_family == 'RedHat'
