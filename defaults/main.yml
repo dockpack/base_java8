@@ -3,9 +3,4 @@ java8_top: '/usr/lib/jvm'
 # for alternatives select another base_jdk in playbook vars
 base_jdk: 'java-1.8.0'
 
-# out of this list
-base_jdk_alternatives:
-  - 'java-1.8.0'
-  - 'java-11'
-  - 'java-13'
 ...
